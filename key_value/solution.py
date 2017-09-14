@@ -9,29 +9,34 @@ parser.add_argument("--value")
 args = parser.parse_args()
 
 # storage_filename = os.path.join(tempfile.gettempdir(), "storage.data")
-storage_filename = "storage.data"
+# path = os.path.dirname(os.path.abspath(__file__))
 
-print(args.key)
-print(args.value)
-print(storage_filename)
+def get_data(filename):
+    if os.path.exists(filename):
+        with open(filename, "r") as f:
+            data = json.load(f)
+    else:
+        data = {}
+    return data
 
-data = {}
-
-if args.key and args.value:
+def write_values(data, key, value):
     data[args.key] = data.get(args.key, []) + [args.value]
-    print(data)
-    with open(storage_filename, "w+") as f:
+    with open(storage_filename, "w") as f:
         json.dump(data, f)
 
-if not args.value:
-    with open(storage_filename, "r") as f:
-        data = json.load(f)
-        print(data)
-"""
-def main():
-    print("Script output")
+def get_values(data, key):
+    if args.key in data:
+        return data[args.key]
 
+def print_values(val):
+    if val:     
+        return ", ".join(val)
 
 if __name__ == "__main__":
-    main()
-"""
+    storage_filename = os.path.join(tempfile.gettempdir(), "storage.data")
+    data = get_data(storage_filename)
+    if args.key and args.value:
+        write_values(data, args.key, args.value)
+    elif args.key and not args.value:
+        output = get_values(data, args.key)
+        print(print_values(output))
