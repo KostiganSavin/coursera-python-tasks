@@ -14,7 +14,7 @@ class Value:
 
     def __set__(self, obj, value):
         #print("setting value")
-        self.value = value - self._count_value(value, obj.commission)
+        self.value = int(value - self._count_value(value, obj.commission))
 
 
 class Account:
