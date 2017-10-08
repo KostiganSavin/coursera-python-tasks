@@ -1,6 +1,5 @@
 env
 __pycache__
 jupyter
-playground
 .vscode
 get_files
